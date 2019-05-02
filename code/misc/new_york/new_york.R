@@ -73,10 +73,5 @@ ny <- left_join(ny, ny_census_data, by = c("tract_full" = "GEOID"))
 ny <- ny %>% 
   mutate_at(vars(voted_primary, voted_general, rep, dem), funs(ifelse(is.na(.), 0, .))) %>% 
   filter(!is.na(nys_id))
-<<<<<<< HEAD
-=======
-
-
->>>>>>> 50a665031aecbb553e4380aefc852a3f161323bc
 
 saveRDS(ny, "./temp/new_york_race_census.RDS")
