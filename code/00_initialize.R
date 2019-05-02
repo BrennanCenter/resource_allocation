@@ -1,8 +1,5 @@
 library(tidycensus)
-<<<<<<< HEAD
 library(wru)
-=======
->>>>>>> 177695c1659f298d0da4057fa8793dd1a7b27aaa
 library(sqldf)
 library(extrafont)
 library(maptools)
