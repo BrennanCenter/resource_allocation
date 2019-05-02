@@ -45,8 +45,10 @@ ny$tract <- over(pings, tracts)$GEOID
 
 
 ## use wru to come up with race estimates
+
 # ny_census <- get_census_data(key = api_key, state = "NY", age = F, sex = F, census.geo = "tract")
 # saveRDS(ny_census, "./temp/wru_census_ny.RDS")
+
 
 ny_census <- readRDS("./temp/wru_census_ny.RDS")
 
@@ -60,8 +62,6 @@ ny <- ny %>%
 
 ny <- predict_race(ny, census.geo = "tract", census.key = api_key, retry = 999, census.data = ny_census)
 
-
-
 ### pull down census data from tidycensus
 
 ny_census_data <- get_basic_census_stats(geo = "tract", state = "NY", year = 2017)
@@ -73,6 +73,5 @@ ny <- left_join(ny, ny_census_data, by = c("tract_full" = "GEOID"))
 ny <- ny %>% 
   mutate_at(vars(voted_primary, voted_general, rep, dem), funs(ifelse(is.na(.), 0, .))) %>% 
   filter(!is.na(nys_id))
-
 
 saveRDS(ny, "./temp/new_york_race_census.RDS")

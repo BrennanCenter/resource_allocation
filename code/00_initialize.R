@@ -1,5 +1,8 @@
 library(tidycensus)
+<<<<<<< HEAD
 library(wru)
+=======
+>>>>>>> 177695c1659f298d0da4057fa8793dd1a7b27aaa
 library(sqldf)
 library(extrafont)
 library(maptools)
@@ -39,3 +42,4 @@ source("./code/misc/get_basic_census.R")
 
 db <- dbConnect(SQLite(), "D:/rolls.db")
 api_key <- Sys.getenv("CENSUS_API_KEY")
+
