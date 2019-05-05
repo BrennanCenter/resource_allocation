@@ -1,4 +1,4 @@
-## read in new york voter file
+# # read in new york voter file
 # ny <- dbGetQuery(db, "select nys_id, last_name, gender, dob, county_code, political_party,
 #                       res_house_number, res_pre_street, res_street_name, res_post_street_dir, res_city,
 #                       zip5, history, election_district, assembly_district from nys_roll_0319
