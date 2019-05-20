@@ -9,7 +9,6 @@ library(data.table)
 library(tidyverse)
 library(kevostools)
 
-
 theme_map <- function(...) {
   theme_minimal() +
     theme(
