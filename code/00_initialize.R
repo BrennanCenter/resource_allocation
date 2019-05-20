@@ -8,7 +8,7 @@ library(rgdal)
 library(data.table)
 library(tidyverse)
 library(kevostools)
-tttt
+
 
 theme_map <- function(...) {
   theme_minimal() +
@@ -35,7 +35,6 @@ theme_map <- function(...) {
     )
 }
 
-dddd
 source("./code/misc/get_basic_census.R")
 
 db <- dbConnect(SQLite(), "D:/rolls.db")
