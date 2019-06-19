@@ -97,20 +97,13 @@ census_median_age <- function(geo, state = NULL, county = NULL, year){
 census_non_citizen <- function(geo, state = NULL, county = NULL, year){
   library(tidycensus)
   library(tidyverse)
-
+  
   non_citizen <- get_acs(geography = geo,
-                         variables = c(c1 = "B05001_002",
-                                       c2 = "B05001_003",
-                                       c3 = "B05001_004",
-                                       c4 = "B05001_005",
-                                       non_citizen = "B05001_006",
-                                       tot = "B05001_006"),
+                         variables = c(non_citizen = "B05001_006"),
+                         summary_var = "B05001_001",
                          state = state, county = county, year = year) %>%
-    group_by(GEOID) %>%
-    mutate(tot = sum(estimate),
-           share_non_citizen = estimate / tot) %>%
-    filter(variable == "non_citizen") %>%
-    select(GEOID, share_non_citizen)
+    dplyr::mutate(share_non_citizen = estimate / summary_est) %>%
+    dplyr::select(GEOID, share_non_citizen)
 }
 
 census_movers <- function(geo, state = NULL, county = NULL, year){

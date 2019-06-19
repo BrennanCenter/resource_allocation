@@ -11,7 +11,7 @@ long <- fread("./raw_data/misc/free_wait_14.csv")
 
 ### pull people who voted at polls
 voted_at_polls <- cces_2014 %>% 
-  filter(CC403 == "In person on election day",
+  filter(CC403 %in% c("In person on election day", "In person before election day (early)"),
          !is.na(CC403),
          CC404 != "Don't know") %>% 
   select(weight,
@@ -27,7 +27,9 @@ voted_at_polls <- cces_2014 %>%
          zip_code = lookupzip,
          county_fips = countyfips,
          state = inputstate_post,
-         family_income = faminc)
+         family_income = faminc,
+         vote_type = CC403,
+         party = pid3)
 
 
 voted_at_polls <- left_join(voted_at_polls, times, by = c("wait_cat" = "resp"))
