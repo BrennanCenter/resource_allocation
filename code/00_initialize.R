@@ -1,3 +1,4 @@
+library(scales)
 library(Matching)
 library(tidycensus)
 library(wru)

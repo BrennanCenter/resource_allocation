@@ -9,6 +9,42 @@ library(data.table)
 
 
 ### start by reading number of poll workers, polling places, ages in each year
+diff <- data.frame("difficulty_find_workers" = c("Very difficult", "Somewhat difficult", "Neither difficult nor easy",
+                                                 "Somewhat easy", "Very easy"),
+                   "diff2" = c(1:5))
+
+p18 <- fread("./raw_data/eavs/2018/2018_EAVS_Dataset_for_Public_Release.csv") %>% 
+  select(FIPSCode, State, JurisdictionName = Jurisdiction_Name,
+         total_precincts = D3a,
+         ed_vote_polling = D4a,
+         early_vote_polling = D5a,
+         early_workers = D7,
+         ed_workers = D6,
+         total_workers = D8a,
+         workers_under_18 = D8b,
+         workers_18_25 = D8c,
+         workers_26_40 = D8d,
+         workers_41_60 = D8e,
+         workers_61_70 = D8f,
+         workers_over_70 = D8g,
+         difficulty_find_workers = D9,
+         in_person_ballots_ed = F1b,
+         in_person_ballots_early = F1f) %>% 
+  mutate_at(vars(total_precincts, total_workers,
+                 starts_with("workers"), in_person_ballots_early,
+                 in_person_ballots_ed,
+                 early_vote_polling, ed_vote_polling),
+            ~ as.numeric(trimws(ifelse(grepl(pattern = "999|888|666", .), "", .)))) %>% 
+  mutate(total_polling_places = early_vote_polling + ed_vote_polling,
+         year = 2018,
+         FIPSCode = str_pad(as.character(FIPSCode), width = 10, side = "left", pad = "0")) %>% 
+  select(-starts_with("ed_polling_places"), -starts_with("early_polling_places"))
+
+p18 <- left_join(p18, diff, by = c("difficulty_find_workers")) %>% 
+  mutate(difficulty_find_workers = diff2) %>% 
+  select(-diff2)
+
+########
 
 p16 <- fread("./raw_data/eavs/2016/EAVS 2016 Final Data for Public Release v.3.csv") %>% 
   select(FIPSCode, State, JurisdictionName,
@@ -239,7 +275,7 @@ rm(p08a, p08b)
 
 #### combine
 
-all_data <- rbind(p08, p10, p12, p14, p16) %>% 
+all_data <- bind_rows(list(p08, p10, p12, p14, p16, p18)) %>% 
   mutate(votes_per_worker = in_person_ballots_ed / total_workers)
 
 
