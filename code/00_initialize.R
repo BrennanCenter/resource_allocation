@@ -1,6 +1,7 @@
 library(scales)
 library(Matching)
 library(tidycensus)
+library(rgeos)
 library(wru)
 library(sqldf)
 library(extrafont)
